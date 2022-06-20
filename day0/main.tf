@@ -12,8 +12,9 @@ data "http" "my_ip" {
 
 # Create base deployment of FortiGate HA cluster
 module "fortigates" {
-  source          = "fgcp-ha-ap-lb"
+  source          = "./fgcp-ha-ap-lb"
 
+  prefix          = "${var.prefix}-"
   region          = var.GCE_REGION
   service_account = data.google_service_account.fgt.email != null ? data.google_service_account.fgt.email : ""
   admin_acl       = ["${data.http.my_ip.body}/32"]
@@ -21,12 +22,14 @@ module "fortigates" {
 
   # Use the below subnet names if you create new networks using sample_networks or update to your own
   # Remember to use subnet list as names, not selfLinks
-  subnets         = [
-     "${var.prefix}sb-external",
-     "${var.prefix}sb-internal",
-     "${var.prefix}sb-hasync",
-     "${var.prefix}sb-mgmt"
-   ]
+  //subnets         = [
+  //   "${var.prefix}-sb-external",
+  //   "${var.prefix}-sb-internal",
+  //   "${var.prefix}-sb-hasync",
+  //   "${var.prefix}-sb-mgmt"
+  // ]
+   
+  subnets         = [ for sb in module.sample_networks.subnets : reverse( split("/", sb))[0] ]
 
   license_files   = [
     "lic1.lic",
@@ -42,7 +45,7 @@ module "fortigates" {
 
 ## Remove the block below if you're using your own networks
 module "sample_networks" {
-  source          = "sample-networks"
+  source          = "./sample-networks"
 
   prefix          = var.prefix
   region          = var.GCE_REGION

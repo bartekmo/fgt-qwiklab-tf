@@ -30,7 +30,11 @@ output "prefix" {
 output "project" {
   value = var.GCP_PROJECT
 }
+output "backend_ext" {
+    value = module.fortigates.elb_bes
+}
 
+/*
 output "ilb" {
   value = module.fortigates.ilb
 }
@@ -38,6 +42,7 @@ output "ilb" {
 output "health_check" {
   value = module.fortigates.health_check
 }
+*/
 
 output "internal_vpc" {
   value = module.fortigates.internal_vpc
@@ -46,3 +51,4 @@ output "internal_vpc" {
 output "internal_subnet" {
   value = module.fortigates.internal_subnet
 }
+

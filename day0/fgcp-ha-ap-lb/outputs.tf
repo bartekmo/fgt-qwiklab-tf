@@ -33,3 +33,7 @@ output internal_subnet {
 output api_key {
   value = random_string.api_key.result
 }
+
+output elb_bes {
+    value = google_compute_region_backend_service.elb_bes.self_link
+}
