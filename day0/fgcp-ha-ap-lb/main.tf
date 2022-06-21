@@ -42,7 +42,7 @@ locals {
 resource "random_string" "api_key" {
   length                 = 30
   special                = false
-  number                 = true
+  numeric                = true
 }
 
 # Create FortiGate instances with secondary logdisks and configuration. Everything 2 times (active + passive)
@@ -54,6 +54,8 @@ resource "google_compute_disk" "logdisk" {
   type                   = "pd-ssd"
   zone                   = local.zones[count.index]
 }
+
+
 
 locals {
   config_active          = templatefile("${path.module}/fgt-base-config.tpl", {
