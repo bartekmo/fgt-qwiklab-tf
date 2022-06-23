@@ -17,6 +17,7 @@ module "fortigates" {
   prefix          = "${var.prefix}-"
   region          = var.GCE_REGION
   service_account = data.google_service_account.fgt.email != null ? data.google_service_account.fgt.email : ""
+  healthcheck_port = 80
   admin_acl       = ["${data.http.my_ip.body}/32"]
   api_acl         = ["${data.http.my_ip.body}/32"]
 
@@ -28,12 +29,16 @@ module "fortigates" {
   //   "${var.prefix}-sb-hasync",
   //   "${var.prefix}-sb-mgmt"
   // ]
-   
+
   subnets         = [ for sb in module.sample_networks.subnets : reverse( split("/", sb))[0] ]
 
   license_files   = [
     "lic1.lic",
     "lic2.lic"
+  ]
+  flexvm_tokens   = [
+    var.flexvm_token1,
+    var.flexvm_token2
   ]
 
   # If creating sample VPC Networks in the same configuration - wait for them to be created!

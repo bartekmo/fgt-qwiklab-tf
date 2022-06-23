@@ -58,7 +58,7 @@ resource "google_compute_disk" "logdisk" {
 
 
 locals {
-  config_active          = templatefile("${path.module}/fgt-base-config.tpl", {
+  config_active          = templatefile("${path.module}/fgt-base-config-flex.tpl", {
     hostname               = "${var.prefix}vm-${local.zones_short[0]}"
     unicast_peer_ip        = google_compute_address.hasync_priv[1].address
     unicast_peer_netmask   = cidrnetmask(data.google_compute_subnetwork.subnets[2].ip_cidr_range)
@@ -75,9 +75,10 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
+    flexvm_token           = var.flexvm_tokens[0]
   })
 
-  config_passive         = templatefile("${path.module}/fgt-base-config.tpl", {
+  config_passive         = templatefile("${path.module}/fgt-base-config-flex.tpl", {
     hostname               = "${var.prefix}vm-${local.zones_short[1]}"
     unicast_peer_ip        = google_compute_address.hasync_priv[0].address
     unicast_peer_netmask   = cidrnetmask(data.google_compute_subnetwork.subnets[2].ip_cidr_range)
@@ -94,6 +95,7 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
+    flexvm_token           = var.flexvm_tokens[1]
   })
 
 }
@@ -123,7 +125,7 @@ resource "google_compute_instance" "fgt-vm" {
 
   metadata = {
     user-data            = (count.index == 0 ? local.config_active : local.config_passive )
-    license              = fileexists(var.license_files[count.index]) ? file(var.license_files[count.index]) : null
+//    license              = fileexists(var.license_files[count.index]) ? file(var.license_files[count.index]) : null
   }
 
   network_interface {
