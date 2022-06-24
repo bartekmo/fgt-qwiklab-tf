@@ -63,12 +63,6 @@ variable license_files {
   description = "List of license (.lic) files to be applied for BYOL instances."
 }
 
-variable flexvm_tokens {
-  type        = list(string)
-  default     = ["",""]
-  description = "list of FlexVM license tokens"
-}
-
 variable healthcheck_port {
   type        = number
   default     = 8008

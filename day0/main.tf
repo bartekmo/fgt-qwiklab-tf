@@ -23,23 +23,7 @@ module "fortigates" {
 
   # Use the below subnet names if you create new networks using sample_networks or update to your own
   # Remember to use subnet list as names, not selfLinks
-  //subnets         = [
-  //   "${var.prefix}-sb-external",
-  //   "${var.prefix}-sb-internal",
-  //   "${var.prefix}-sb-hasync",
-  //   "${var.prefix}-sb-mgmt"
-  // ]
-
   subnets         = [ for sb in module.sample_networks.subnets : reverse( split("/", sb))[0] ]
-
-  license_files   = [
-    "lic1.lic",
-    "lic2.lic"
-  ]
-  flexvm_tokens   = [
-    var.flexvm_token1,
-    var.flexvm_token2
-  ]
 
   # If creating sample VPC Networks in the same configuration - wait for them to be created!
   # Remove this explicit dependency if using your own pre-existing networks.

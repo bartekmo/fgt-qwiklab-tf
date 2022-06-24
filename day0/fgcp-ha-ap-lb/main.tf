@@ -2,8 +2,9 @@
 # an image different than the newest 7.0 BYOL series.
 data "google_compute_image" "fgt_image" {
   project         = "fortigcp-project-001"
-  family          = "fortigate-70-byol"
+  family          = "fortigate-70-payg"
 }
+
 
 # Pull information about subnets we will connect to FortiGate instances. Subnets must
 # already exist (can be created in parent module).
@@ -58,7 +59,7 @@ resource "google_compute_disk" "logdisk" {
 
 
 locals {
-  config_active          = templatefile("${path.module}/fgt-base-config-flex.tpl", {
+  config_active          = templatefile("${path.module}/fgt-base-config.tpl", {
     hostname               = "${var.prefix}vm-${local.zones_short[0]}"
     unicast_peer_ip        = google_compute_address.hasync_priv[1].address
     unicast_peer_netmask   = cidrnetmask(data.google_compute_subnetwork.subnets[2].ip_cidr_range)
@@ -75,10 +76,9 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
-    flexvm_token           = var.flexvm_tokens[0]
   })
 
-  config_passive         = templatefile("${path.module}/fgt-base-config-flex.tpl", {
+  config_passive         = templatefile("${path.module}/fgt-base-config.tpl", {
     hostname               = "${var.prefix}vm-${local.zones_short[1]}"
     unicast_peer_ip        = google_compute_address.hasync_priv[0].address
     unicast_peer_netmask   = cidrnetmask(data.google_compute_subnetwork.subnets[2].ip_cidr_range)
@@ -95,7 +95,6 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
-    flexvm_token           = var.flexvm_tokens[1]
   })
 
 }

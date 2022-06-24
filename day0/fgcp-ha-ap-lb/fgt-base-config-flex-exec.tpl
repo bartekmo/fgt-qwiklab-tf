@@ -1,12 +1,6 @@
-Content-Type: multipart/mixed; boundary="12345"
-MIME-Version: 1.0
-
---12345
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="config"
-
+config system global
+  set hostname ${hostname}
+end
 config system global
   set hostname ${hostname}
   set admin-port 8880
@@ -114,13 +108,4 @@ config router static
   next
 end
 
---12345
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="license"
-
-
-LICENSE-TOKEN: ${flexvm_token}
-
---12345--
+exec vm-license ${flexvm_token}
