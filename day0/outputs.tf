@@ -3,7 +3,7 @@
 # in day1 (via remote state)
 #
 
-output "fgt-mgmt-eips" {
+output "fgt_mgmt_eips" {
   value = module.fortigates.fgt_mgmt_eips
 }
 
@@ -15,7 +15,7 @@ output "fgt_umigs" {
   value = module.fortigates.fgt_umigs
 }
 
-output "api-key" {
+output "api_key" {
   value = module.fortigates.api_key
 }
 
@@ -34,16 +34,6 @@ output "backend_ext" {
     value = module.fortigates.elb_bes
 }
 
-/*
-output "ilb" {
-  value = module.fortigates.ilb
-}
-
-output "health_check" {
-  value = module.fortigates.health_check
-}
-*/
-
 output "internal_vpc" {
   value = module.fortigates.internal_vpc
 }
@@ -51,4 +41,3 @@ output "internal_vpc" {
 output "internal_subnet" {
   value = module.fortigates.internal_subnet
 }
-

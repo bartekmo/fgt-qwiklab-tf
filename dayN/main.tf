@@ -1,16 +1,26 @@
+//The application itself
+module "app" {
+  source       = "./app-infra"
 
-module "fgt-ingress" {
-  source      = "./fgt-ingress"
-
-  prefix      = var.prefix
-  fgt_address =
-  fgt_apikey  =
-  target_port =
-  target_ip   =
+  prefix       = "s00-myapp"
+  subnet       = data.terraform_remote_state.day0.outputs.internal_subnet
+  region       = data.terraform_remote_state.day0.outputs.region
 }
 
-module "app" {
-  source      = "./app-infra"
+//Forward traffic to the app
+module "secure_inbound" {
+  source       = "./secure-inbound"
 
-  prefix      = var.prefix
+  prefix       = "s00-myapp"
+  protocol     = "TCP"
+  port         = 80
+  target_ip    = module.app.app_ip
+  target_port  = 80
+
+  region       = data.terraform_remote_state.day0.outputs.region
+}
+
+//Output the IP address of application
+output "application_ip" {
+  value = module.secure_inbound.application_ip
 }

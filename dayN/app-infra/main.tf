@@ -33,8 +33,8 @@ resource "google_compute_instance" "websrv" {
   }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.demo.self_link
+    subnetwork = var.subnet
   }
 
-  metadata_startup_script = file("websrv_startup_script.sh")
+  metadata_startup_script = file("${path.module}/websrv_startup_script.sh")
 }
