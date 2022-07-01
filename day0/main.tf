@@ -17,7 +17,7 @@ module "fortigates" {
   prefix          = "${var.prefix}-"
   region          = var.GCE_REGION
   service_account = data.google_service_account.fgt.email != null ? data.google_service_account.fgt.email : ""
-  healthcheck_port = 80
+  healthcheck_port = 8008
   admin_acl       = ["${data.http.my_ip.body}/32"]
   api_acl         = ["${data.http.my_ip.body}/32"]
 
