@@ -11,7 +11,7 @@ terraform {
 
 provider "fortios" {
   hostname = data.terraform_remote_state.day0.outputs.fgt_mgmt_eips[0]
-  token    = data.terraforn_remote_state.day0.outputs.api_key
+  token    = data.terraform_remote_state.day0.outputs.api_key
   insecure = true
 }
 
