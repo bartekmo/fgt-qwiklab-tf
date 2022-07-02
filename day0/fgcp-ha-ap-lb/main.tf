@@ -70,7 +70,7 @@ locals {
     ext_gw                 = data.google_compute_subnetwork.subnets[0].gateway_address
     int_ip                 = google_compute_address.int_priv[0].address
     int_gw                 = data.google_compute_subnetwork.subnets[1].gateway_address
-    int_cidr               = data.google_compute_subnetwork.subnets[0].ip_cidr_range
+    int_cidr               = data.google_compute_subnetwork.subnets[1].ip_cidr_range
     hasync_ip              = google_compute_address.hasync_priv[0].address
     mgmt_ip                = google_compute_address.mgmt_priv[0].address
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
@@ -89,7 +89,7 @@ locals {
     ext_gw                 = data.google_compute_subnetwork.subnets[0].gateway_address
     int_ip                 = google_compute_address.int_priv[1].address
     int_gw                 = data.google_compute_subnetwork.subnets[1].gateway_address
-    int_cidr               = data.google_compute_subnetwork.subnets[0].ip_cidr_range
+    int_cidr               = data.google_compute_subnetwork.subnets[1].ip_cidr_range
     hasync_ip              = google_compute_address.hasync_priv[1].address
     mgmt_ip                = google_compute_address.mgmt_priv[1].address
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
