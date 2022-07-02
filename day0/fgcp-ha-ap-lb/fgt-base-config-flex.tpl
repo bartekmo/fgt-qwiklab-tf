@@ -114,6 +114,8 @@ config router static
   next
 end
 
+${fgt_config}
+
 --12345
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0

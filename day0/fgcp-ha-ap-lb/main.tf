@@ -76,6 +76,7 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
+    fgt_config             = var.fgt_config
   })
 
   config_passive         = templatefile("${path.module}/fgt-base-config.tpl", {
@@ -95,6 +96,7 @@ locals {
     mgmt_gw                = data.google_compute_subnetwork.subnets[3].gateway_address
     ilb_ip                 = google_compute_address.ilb.address
     api_acl                = var.api_acl
+    fgt_config             = var.fgt_config
   })
 
 }

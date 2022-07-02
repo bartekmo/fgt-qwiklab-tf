@@ -68,3 +68,9 @@ variable healthcheck_port {
   default     = 8008
   description = "Port used for LB health checks"
 }
+
+variable fgt_config {
+  type        = string
+  description = "(optional) Additional configuration script to be added to bootstrap"
+  default     = ""
+}

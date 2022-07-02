@@ -25,6 +25,25 @@ module "fortigates" {
   # Remember to use subnet list as names, not selfLinks
   subnets         = [ for sb in module.sample_networks.subnets : reverse( split("/", sb))[0] ]
 
+  fgt_config = <<EOF
+config firewall policy
+  edit 0
+    set name "allow-all-outbound"
+    set srcintf "port2"
+    set dstintf "port1"
+    set action accept
+    set srcaddr "all"
+    set dstaddr "all"
+    set schedule "always"
+    set service "ALL"
+    set utm-status enable
+    set ssl-ssh-profile "certificate-inspection"
+    set application-list "default"
+    set logtraffic all
+    set nat enable
+end
+EOF
+
   # If creating sample VPC Networks in the same configuration - wait for them to be created!
   # Remove this explicit dependency if using your own pre-existing networks.
   depends_on    = [

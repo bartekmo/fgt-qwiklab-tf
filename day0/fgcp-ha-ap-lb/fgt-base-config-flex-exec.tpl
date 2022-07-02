@@ -108,4 +108,6 @@ config router static
   next
 end
 
+${fgt_config}
+
 exec vm-license ${flexvm_token}

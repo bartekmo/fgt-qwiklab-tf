@@ -103,3 +103,5 @@ config router static
     set gateway ${int_gw}
   next
 end
+
+${fgt_config}
