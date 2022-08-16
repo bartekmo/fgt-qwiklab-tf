@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    fortios = {
-      source = "fortinetdev/fortios"
-    }
-  }
-}
-
 variable region {
   type        = string
   default     = "europe-west1"

@@ -27,3 +27,8 @@ variable "region" {
   type        = string
   description = "Region to deploy solution to. Usually the same as for firewalls"
 }
+
+variable "elb_bes" {
+  type = string 
+  description = "URI of backend service used in the external netowrk load balancer"
+}

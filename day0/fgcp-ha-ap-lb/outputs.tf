@@ -6,20 +6,12 @@ output fgt_password {
   value = google_compute_instance.fgt-vm[0].instance_id
 }
 
-output ilb {
-  value = google_compute_forwarding_rule.ilb_fwd_rule.self_link
-}
-
-output fgt_umigs {
-  value = google_compute_instance_group.fgt-umigs[*].self_link
+output fgt_self_links {
+  value = google_compute_instance.fgt-vm[*].self_link
 }
 
 output region {
   value = var.region
-}
-
-output health_check {
-  value = google_compute_region_health_check.health_check.self_link
 }
 
 output internal_vpc {

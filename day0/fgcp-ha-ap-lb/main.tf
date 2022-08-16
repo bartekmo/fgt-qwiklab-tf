@@ -3,6 +3,7 @@
 data "google_compute_image" "fgt_image" {
   project         = "fortigcp-project-001"
   family          = "fortigate-70-payg"
+#  name = "fortinet-fgtondemand-703-20211208-001-w-license"
 }
 
 
@@ -127,6 +128,7 @@ resource "google_compute_instance" "fgt-vm" {
   metadata = {
     user-data            = (count.index == 0 ? local.config_active : local.config_passive )
 //    license              = fileexists(var.license_files[count.index]) ? file(var.license_files[count.index]) : null
+    serial-port-enable   = true
   }
 
   network_interface {
@@ -297,10 +299,10 @@ resource "google_compute_router_nat" "cloud_nat" {
 }
 
 # OPTIONAL
-/*
+
 # Save api_key to Secret Manager
 resource "google_secret_manager_secret" "api-secret" {
-  secret_id              = "${var.prefix}-fgt-${local.region_short}-apikey"
+  secret_id              = "${google_compute_instance.fgt-vm[0].name}-apikey"
 
   replication {
     automatic            = true
@@ -310,4 +312,4 @@ resource "google_secret_manager_secret_version" "api_key" {
   secret                 = google_secret_manager_secret.api-secret.id
   secret_data            = random_string.api_key.id
 }
-*/
+

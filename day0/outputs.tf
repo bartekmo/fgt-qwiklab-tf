@@ -3,41 +3,42 @@
 # in day1 (via remote state)
 #
 
-output "fgt_mgmt_eips" {
-  value = module.fortigates.fgt_mgmt_eips
+output "primary_fgt_mgmt_ip" {
+  value = "https://${module.fortigates.fgt_mgmt_eips[0]}"
 }
 
 output "default_password" {
   value = module.fortigates.fgt_password
 }
 
-output "fgt_umigs" {
-  value = module.fortigates.fgt_umigs
-}
+#output "fgt_umigs" {
+#  value = module.fortigates.fgt_umigs
+#}
 
-output "api_key" {
-  value = module.fortigates.api_key
-}
+#output "api_key" {
+#  value = module.fortigates.api_key
+#}
 
 output "region" {
-  value = var.GCE_REGION
+  value = var.region
 }
 
 output "prefix" {
   value = var.prefix
 }
 
-output "project" {
-  value = var.GCP_PROJECT
-}
-output "backend_ext" {
+output "elb_bes" {
     value = module.fortigates.elb_bes
 }
 
-output "internal_vpc" {
-  value = module.fortigates.internal_vpc
-}
+#output "internal_vpc" {
+#  value = module.fortigates.internal_vpc
+#}
 
 output "internal_subnet" {
   value = module.fortigates.internal_subnet
+}
+
+output "fgt_self_links" {
+  value = module.fortigates.fgt_self_links
 }

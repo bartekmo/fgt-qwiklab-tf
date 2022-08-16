@@ -18,9 +18,10 @@ module "secure_inbound" {
   target_port  = 80
 
   region       = data.terraform_remote_state.day0.outputs.region
+  elb_bes      = data.terraform_remote_state.day0.outputs.elb_bes
 }
 
-//Output the IP address of application
-output "application_ip" {
-  value = module.secure_inbound.application_ip
+output application_url {
+    value = "http://${module.secure_inbound.application_ip}"
+    description = "Public URL of the deployed demo application"
 }

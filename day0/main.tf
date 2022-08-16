@@ -15,10 +15,10 @@ module "fortigates" {
   source          = "./fgcp-ha-ap-lb"
 
   prefix          = "${var.prefix}-"
-  region          = var.GCE_REGION
+  region          = var.region
   service_account = data.google_service_account.fgt.email != null ? data.google_service_account.fgt.email : ""
   healthcheck_port = 8008
-  admin_acl       = ["${data.http.my_ip.body}/32"]
+  admin_acl       = ["0.0.0.0/0"]
   api_acl         = ["${data.http.my_ip.body}/32"]
 
   # Use the below subnet names if you create new networks using sample_networks or update to your own
@@ -56,6 +56,6 @@ module "sample_networks" {
   source          = "./sample-networks"
 
   prefix          = var.prefix
-  region          = var.GCE_REGION
+  region          = var.region
   networks        = ["external", "internal", "hasync", "mgmt"]
 }

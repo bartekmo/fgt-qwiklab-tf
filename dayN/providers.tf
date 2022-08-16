@@ -9,13 +9,20 @@ terraform {
   }
 }
 
+data "google_compute_instance" "fgt1" {
+  self_link = data.terraform_remote_state.day0.outputs.fgt_self_links[0]
+}
+
+data "google_secret_manager_secret_version" "fgt-apikey" {
+  secret  = "${data.google_compute_instance.fgt1.name}-apikey"
+}
+
 provider "fortios" {
-  hostname = data.terraform_remote_state.day0.outputs.fgt_mgmt_eips[0]
-  token    = data.terraform_remote_state.day0.outputs.api_key
+  hostname = data.google_compute_instance.fgt1.network_interface[3].access_config[0].nat_ip
+  token    = data.google_secret_manager_secret_version.fgt-apikey.secret_data
   insecure = true
 }
 
 provider "google" {
-  project  = var.GOOGLE_PROJECT
-  region   = var.GOOGLE_REGION
+  region   = var.region
 }

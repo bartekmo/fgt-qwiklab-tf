@@ -10,5 +10,5 @@ resource "google_compute_forwarding_rule" "inbound" {
   ports                 = [var.port]
   ip_protocol           = var.protocol
   load_balancing_scheme = "EXTERNAL"
-  backend_service       = data.terraform_remote_state.day0.outputs.backend_ext
+  backend_service       = var.elb_bes
 }
