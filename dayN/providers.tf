@@ -24,5 +24,5 @@ provider "fortios" {
 }
 
 provider "google" {
-  region   = var.region
+  region   = data.terraform_remote_state.day0.outputs.region
 }

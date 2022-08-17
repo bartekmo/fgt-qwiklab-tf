@@ -2,7 +2,7 @@
 module "app" {
   source       = "./app-infra"
 
-  prefix       = "${var.prefix}-myapp"
+  prefix       = "${var.prefix}"
   subnet       = data.terraform_remote_state.day0.outputs.internal_subnet
   region       = data.terraform_remote_state.day0.outputs.region
 }
@@ -11,7 +11,7 @@ module "app" {
 module "secure_inbound" {
   source       = "./secure-inbound"
 
-  prefix       = "${var.prefix}-myapp"
+  prefix       = "${var.prefix}"
   protocol     = "TCP"
   port         = 80
   target_ip    = module.app.app_ip

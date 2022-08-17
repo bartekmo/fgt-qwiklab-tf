@@ -10,7 +10,7 @@ data "fortios_system_interface" "probe_lb" {
 # by referencing resource (google_compute_address.inbound.address)
 
 resource "fortios_firewall_vip" "app" {
-  name = "${var.prefix}-myapp-${var.port}"
+  name = "${var.prefix}-${var.port}"
   extintf = "port1"
   extip = google_compute_address.inbound.address
   extport = var.port
@@ -22,12 +22,12 @@ resource "fortios_firewall_vip" "app" {
 }
 
 resource "fortios_firewallservice_custom" "app" {
-  name = "myapp_service"
+  name = "${var.prefix}-service"
   tcp_portrange = var.port
 }
 
 resource "fortios_firewall_policy" "app" {
-  name = "${var.prefix}-myapp-allow"
+  name = "${var.prefix}-allow"
   action = "accept"
   schedule = "always"
   service {
@@ -45,9 +45,10 @@ resource "fortios_firewall_policy" "app" {
   dstaddr {
       name = fortios_firewall_vip.app.name
   }
-  inspection_mode = "flow"
+  inspection_mode = "proxy"
   utm_status = "enable"
   av_profile = "default"
+  ips_sensor = "default"
   nat = "disable"
   logtraffic = "all"
 }
@@ -57,7 +58,7 @@ resource "fortios_firewall_policy" "app" {
 # in this terraform module. Make sure it matches the value in day0/main.tf
 
 resource "fortios_firewall_vip" "probe" {
-  name = "${var.prefix}-myapp-probe-vip"
+  name = "${var.prefix}-probe-vip"
   extintf = "port1"
   extip = google_compute_address.inbound.address
   extport = data.fortios_system_proberesponse.health_check.port
@@ -69,12 +70,12 @@ resource "fortios_firewall_vip" "probe" {
 }
 
 resource "fortios_firewallservice_custom" "probe" {
-  name = "myapp_probe_srv"
+  name = "health_probe_srv"
   tcp_portrange = 8008
 }
 
 resource "fortios_firewall_policy" "probe" {
-  name = "${var.prefix}-myapp-probe-allow"
+  name = "${var.prefix}-probe-allow"
     action = "accept"
   schedule = "always"
   service {
