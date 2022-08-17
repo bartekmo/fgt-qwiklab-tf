@@ -1,2 +1,2 @@
-prefix = "bm-qlab"
-region = "us-central1"
+prefix = "fgt-qlab"
+region = ""
